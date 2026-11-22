@@ -7,7 +7,7 @@ import '../Styles/Hero.css'
 const ImageList = [
   {
     id: 1,
-    img: food1,
+    img: food1, 
   },
   {
     id: 2,
