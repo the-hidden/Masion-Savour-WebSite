@@ -30,7 +30,7 @@ const FoodCard = ({ item }) => {
             
             <div className={styles.footer}>
             <span className={styles.price}>$ {price.toFixed(2)}</span>
-            <a
+            {/* <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -38,7 +38,7 @@ const FoodCard = ({ item }) => {
                 style={{ textDecoration: 'none' }}
             >
                 pedir <span>+</span>
-            </a>
+            </a> */}
             </div>
         </div>
         </article>

@@ -1,68 +1,24 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { menuData as fallbackData } from '../data/mockData'
-import { MENU_CSV_URL } from '../Config'
+import { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_MENU_TABLE } from '../Config'
 
-function parseCSV(text) {
-    const rows = []
-    let row = []
-    let field = ''
-    let inQuotes = false
-
-    for (let i = 0; i < text.length; i++) {
-        const c = text[i]
-        if (inQuotes) {
-            if (c === '"' && text[i + 1] === '"') {
-                field += '"'
-                i++
-            } else if (c === '"') {
-                inQuotes = false
-            } else {
-                field += c
-            }
-        } else if (c === '"') {
-            inQuotes = true
-        } else if (c === ',') {
-            row.push(field)
-            field = ''
-        } else if (c === '\n' || c === '\r') {
-            if (c === '\r' && text[i + 1] === '\n') i++
-            row.push(field)
-            rows.push(row)
-            row = []
-            field = ''
-        } else {
-            field += c
-        }
-    }
-    if (field || row.length) {
-        row.push(field)
-        rows.push(row)
-    }
-    return rows
-}
-
+// Convierte las filas de Supabase en { Categoria: [platos] }, que es lo que
+// esperan MenuSection y FoodCard.
 function rowsToMenuData(rows) {
-    const [header, ...data] = rows
-    const keys = header.map((h) => h.trim().toLowerCase())
-
     const menu = {}
-    data
-        .filter((r) => r.some((cell) => cell.trim() !== ''))
-        .map((r) => Object.fromEntries(keys.map((k, i) => [k, (r[i] || '').trim()])))
-        .filter((row) => row.disponible?.toLowerCase() !== 'no')
-        .forEach((row, index) => {
-            const category = row.categoria || 'Otros'
-                ; (menu[category] = menu[category] || []).push({
-                    id: index + 1,
-                    name: row.nombre,
-                    time: row.tiempo,
-                    price: parseFloat(row.precio) || 0,
-                    isFav: row.favorito?.toLowerCase() === 'si',
-                    desc: row.descripcion,
-                    img: row.imagen,
-                })
+    rows.forEach((row) => {
+        const category = row.categoria || 'Otros'
+        ;(menu[category] = menu[category] || []).push({
+            id: row.id,
+            name: row.nombre,
+            time: row.tiempo,
+            price: Number(row.precio) || 0,
+            isFav: Boolean(row.favorito),
+            desc: row.descripcion,
+            img: row.imagen,
         })
+    })
     return menu
 }
 
@@ -71,15 +27,34 @@ export function useMenuData() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+            console.warn('Supabase no está configurado (faltan VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY). Se usa el menú de respaldo.')
+            setLoading(false)
+            return
+        }
+
         const controller = new AbortController()
 
         axios
-            .get(MENU_CSV_URL, { responseType: 'text', signal: controller.signal })
+            .get(`${SUPABASE_URL}/rest/v1/${SUPABASE_MENU_TABLE}`, {
+                params: {
+                    select: '*',
+                    disponible: 'eq.true',
+                    order: 'id.asc',
+                },
+                headers: {
+                    apikey: SUPABASE_ANON_KEY,
+                    Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+                },
+                signal: controller.signal,
+            })
             .then((res) => {
-                const parsed = rowsToMenuData(parseCSV(res.data))
+                const parsed = rowsToMenuData(res.data)
                 if (Object.keys(parsed).length > 0) setMenuData(parsed)
             })
-            .catch(() => {
+            .catch((err) => {
+                if (axios.isCancel(err)) return
+                console.warn('No se pudo cargar el menú desde Supabase, se usa el respaldo:', err.message)
             })
             .finally(() => {
                 if (!controller.signal.aborted) setLoading(false)

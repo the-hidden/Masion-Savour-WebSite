@@ -1,4 +1,7 @@
-export const MENU_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7edxUUxgmoB_3Ky8p7qu4k00-MUIXtL4xwSMmDZrZApvpX8NWEfr0-k5jkmF-ebcPWksV1J03zfBZ/pub?gid=471590382&single=true&output=csv";
+
+export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+export const SUPABASE_MENU_TABLE = "menu";
 
 export const WHATSAPP_NUMBER = "50375780266";
 
