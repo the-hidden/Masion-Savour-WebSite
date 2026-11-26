@@ -50,11 +50,5 @@ export const chefs = [
         name: 'Jemy Carline',
         role: 'Senior Chef',
         image: 'https://images.unsplash.com/photo-1607631568010-a87245c0daf8?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-        id: 5,
-        name: 'Jemy ',
-        role: 'Senior Chef',
-        image: 'https://images.unsplash.com/photo-1607631568010-a87245c0daf8?auto=format&fit=crop&w=400&q=80',
-    },
+    }
 ];

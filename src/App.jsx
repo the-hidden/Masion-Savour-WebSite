@@ -1,23 +1,40 @@
-import { Routes, Route } from 'react-router-dom';
+import { lazy,useEffect, Outlet } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css'
 import Navbar from './Components/Navbar';
 import Home from './Pages/Home';
 import Menu from './Pages/Menu';
-import Nosotros from './Pages/Nosotros';
+import Nosotros from './Pages/About';
 import Contacto from './Pages/Contacto';
-import Fooder from './Components/Fooder';
+import Footer from './Components/Footer';
+
+const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 const App = () => {
+  const { pathname } = useLocation();
+  const isAdmin = pathname.toLowerCase().startsWith('/admin');
+
+  function ScrollToTop() {
+    const { pathname } = useLocation()
+    useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+    return null
+  }
+
   return (
     <div className="App">
-      <Navbar />
+      {!isAdmin && <Navbar />}
+      <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Menu" element={<Menu />} />
-        <Route path="/Nosotros" element={<Nosotros />} />
-        <Route path="/Contacto" element={<Contacto />} />
+        <Route>
+          <Route index element={<Home />} />
+          <Route path="menu" element={<Menu />} />
+          <Route path="nosotros" element={<Nosotros />} />
+          <Route path="contacto" element={<Contacto />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Route>
+        <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
-      <Fooder />
+      {!isAdmin && <Footer />}
     </div>
   )
 }

@@ -79,8 +79,9 @@ const Chefs = () => {
                                 ref={trackRef}
                                 className={`about-carousel-track ${!isTransitioning ? 'about-carousel-no-transition' : ''}`}
                                 style={{ transform: `translateX(-${currentIndex * slideWidth}px)` }}
-                                onTransitionEnd={(event) => {
-                                    if (event.propertyName === 'transform') handleTransitionEnd();
+                                onTransitionEnd={(e) => {
+                                    if (e.target !== e.currentTarget) return
+                                    if (e.propertyName === 'transform') handleTransitionEnd()
                                 }}>
                                 {extendedChefs.map((chef, index) => (
                                     <div key={`${chef.id}-${index}`} className="about-chef-card">
@@ -90,12 +91,12 @@ const Chefs = () => {
                                                 <h4 className="about-chef-name">{chef.name}</h4>
                                                 <p className="about-chef-role">{chef.role}</p>
                                             </div>
-                                            <button className="about-chef-btn" aria-label="Ver perfil">
+                                            {/* <button className="about-chef-btn" aria-label="Ver perfil">
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                                     <line x1="7" y1="17" x2="17" y2="7" />
                                                     <polyline points="7 7 17 7 17 17" />
                                                 </svg>
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 ))}

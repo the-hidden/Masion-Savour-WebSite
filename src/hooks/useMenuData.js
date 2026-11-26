@@ -6,7 +6,6 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_MENU_TABLE } from '../Config'
 const CONFIGURED = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY)
 const REFRESH_MS = 60_000
 
-// Convierte las filas de Supabase al formato que consume el menú público.
 export function rowsToMenuData(rows) {
     if (!Array.isArray(rows)) return {}
 
@@ -55,7 +54,7 @@ export function useMenuData() {
                     signal: current.signal,
                 })
                 if (!alive) return
-                const parsed = rowsToMenuData(res.data) // un objeto vacío es válido
+                const parsed = rowsToMenuData(res.data)
                 const json = JSON.stringify(parsed)
                 if (json !== lastJson) {
                     lastJson = json

@@ -1,19 +1,11 @@
 import React from 'react';
 import '../Styles/Location.css';
-import HeroTitle from '../Components/HeroTitle';
-import { heroData } from '../data/heroData';
 import { locations} from '../data/LocationData';
 
 
 const Location = () => {
     return (
             <div className="location-page">
-                {/* <section className="location-hero">
-                    <div className="location-hero-overlay">
-                        <h2>CONTACTO</h2>
-                        <p className="location-breadcrumb">UBICACIONES</p>
-                    </div>
-                </section> */}
                 <section className="location-grid-section">
                     <div className="location-grid-container">
                     {locations.map((loc, index) => {

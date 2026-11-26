@@ -59,3 +59,28 @@
   color: #ef5007 ;
   background-color: rgba(249, 201, 171, 0.387);
 }
+
+.navbar {
+  padding-inline: 1rem;
+}
+
+@media (min-width: 768px) {
+  .navbar { padding-inline: 8rem; }
+}
+
+.nav-toggle { display: block; }
+@media (min-width: 768px) { .nav-toggle { display: none; } }
+
+@media (max-width: 767px) {
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    padding: 1rem;
+    background: var(--bg-narder);
+  }
+  .nav-links.is-open { display: flex; }
+}

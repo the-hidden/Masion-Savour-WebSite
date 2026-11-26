@@ -1,4 +1,3 @@
-import React from 'react'
 import '../Styles/Menu.css';
 import HeroTitle from '../Components/HeroTitle';
 import { heroData } from '../data/heroData';
@@ -12,13 +11,6 @@ const Menu = () => {
         <MenuSection />
       </main>
     </div>
-
-    // <div className='Gen'>
-    //   <div className='Gen-content'>
-    //     <h1 className='Gen-title'>Menú</h1>
-    //     <p>Explora nuestra deliciosa selección de platos.</p>
-    //   </div>
-    // </div>
   )
 }
 

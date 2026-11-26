@@ -7,7 +7,7 @@ import '../Styles/Hero.css'
 const ImageList = [
   {
     id: 1,
-    img: food1, 
+    img: food1,
   },
   {
     id: 2,
@@ -18,6 +18,8 @@ const ImageList = [
     img: food3,
   }
 ];
+
+
 
 const Hero = () => {
   const [imageId, setImageId] = useState(food1);
@@ -35,12 +37,16 @@ const Hero = () => {
             </div>
             <div className='hero-div-list'>
               {ImageList.map((item) => (
-                <img
+                <button
                   key={item.id}
-                  src={item.img}
-                  className='hero-img-list'
+                  type="button"
+                  className="hero-thumb"
+                  aria-label={`Ver ${item.alt}`}
+                  aria-pressed={imageId === item.img}
                   onClick={() => setImageId(item.img)}
-                />
+                >
+                  <img src={item.img} alt="" loading="lazy" width="80" height="80" />
+                </button>
               ))}
             </div>
           </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../Styles/Nosotros.css';
 import HeroTitle from '../Components/HeroTitle';
 import { heroData } from '../data/heroData';
-import Servics from '../Components/Servics';
+import Servics from '../Components/Services';
 import Chefs from '../Components/Chefs';
 
 const About = () => {

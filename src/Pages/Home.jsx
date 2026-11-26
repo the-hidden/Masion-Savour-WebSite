@@ -1,7 +1,7 @@
 import React from 'react'
 import '../Styles/Home.css';
 import Hero from '../Components/Hero';
-import Servics from '../Components/Servics';
+import Servics from '../Components/Services';
 import AppStore from '../Components/AppStore';
 const Home = () => {
   return (
